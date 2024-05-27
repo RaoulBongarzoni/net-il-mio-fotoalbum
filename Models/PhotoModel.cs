@@ -18,7 +18,7 @@ namespace net_il_mio_fotoalbum.Models
         public bool Visible {  get; set; }
 
         //aggiungere categorie
-       public List<CategoryModel>? CategoriesList { get; set; }
+        public List<CategoryModel>? CategoriesList { get; set; }
 
         public PhotoModel( ) { }
 
