@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace net_il_mio_fotoalbum.Data
 {
@@ -12,6 +12,7 @@ namespace net_il_mio_fotoalbum.Data
 
        
         public DbSet<PhotoModel> Photos { get; set; }
+        public DbSet<CategoryModel> Categories { get; set; }
 
 
 
