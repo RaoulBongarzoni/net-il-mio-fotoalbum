@@ -13,7 +13,7 @@ namespace net_il_mio_fotoalbum.Models
         
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public string PhotoUrl { get; set; }
         public bool Visible {  get; set; }
 
@@ -23,7 +23,7 @@ namespace net_il_mio_fotoalbum.Models
         public PhotoModel( ) { }
 
 
-        public PhotoModel(string _title, string _description, string _photoUrl, bool _visibility = true)
+        public PhotoModel(string _title, string? _description, string _photoUrl, bool _visibility = true)
         {
             this.Title = _title;
             this.Description = _description;
