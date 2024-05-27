@@ -45,8 +45,9 @@ namespace net_il_mio_fotoalbum.Controllers
                 model.GetCategories();
                 return View("Create", model);
             }
+            model.SetImageFileFromFile();
             //se i dati sono validi e corretti inserisco la foto nel db
-            PhotoManager.GeneratePhoto(model.Photo, model.SelectedCategories);
+            PhotoManager.GeneratePhoto(model.Photo , model.SelectedCategories );
 
             return View("Index");
             

@@ -32,7 +32,7 @@ namespace net_il_mio_fotoalbum.Data
         }
 
 
-       public static void GeneratePhoto(PhotoModel data, List<string> selecetdCategories = null )
+       public static void GeneratePhoto(PhotoModel data,  List<string> selecetdCategories = null )
        {
             using PhotoContext context = new PhotoContext();
             if (selecetdCategories != null)
@@ -46,6 +46,7 @@ namespace net_il_mio_fotoalbum.Data
 
                 }
             }
+
             context.Photos.Add(data);
             context.SaveChanges();
 
