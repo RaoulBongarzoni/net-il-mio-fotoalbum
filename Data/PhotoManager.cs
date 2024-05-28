@@ -54,7 +54,36 @@ namespace net_il_mio_fotoalbum.Data
 
 
        }
-       
+
+        public static bool UpdatePhoto(int id, string title, string? desc, bool visibility, List<string>? categories)
+        {
+            using PhotoContext context = new PhotoContext();
+            var selectedPhoto = context.Photos.Where(x => x.Id == id).Include(x => x.CategoriesList).FirstOrDefault();
+
+            if (selectedPhoto == null)
+            {
+                return false;
+
+            }
+
+            selectedPhoto.Title = title;
+            selectedPhoto.Description = desc;
+            selectedPhoto.Visible = visibility;
+
+            selectedPhoto.CategoriesList.Clear();
+            if(categories != null)
+            {
+
+                foreach (var category in categories)
+                {
+                    int catId = int.Parse(category);
+                    var categoryModel = context.Categories.FirstOrDefault(x => x.Id == catId);
+                    selectedPhoto.CategoriesList.Add(categoryModel);
+                }
+            }
+            context.SaveChanges();
+            return true;
+            }
 
 
 

@@ -35,6 +35,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         }
 
+
         [HttpPost]
 
         public IActionResult Create(PhotoFormModel model) //qui mi prendo il modello con i dati della foto e le categorie selezionate
@@ -52,5 +53,61 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Index");
             
         }
+
+        [HttpGet]
+        public IActionResult Update(int id) {
+
+            var photoToUpdate = PhotoManager.GetPhotoById(id);
+
+            if(photoToUpdate == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                PhotoFormModel model = new PhotoFormModel();
+                model.GetCategories();
+                return View(model);
+            }
+        
+        }
+
+
+
+
+
+
+        [HttpPost]
+        public IActionResult Update(int id, PhotoFormModel data) {
+        
+            if(!ModelState.IsValid)
+            {
+                data.GetCategories();
+                return View("update", data);
+
+
+            }
+
+            if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.Visible, data.SelectedCategories))
+                return RedirectToAction("index");
+            else
+                return NotFound();
+
+        
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
