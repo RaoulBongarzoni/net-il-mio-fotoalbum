@@ -97,7 +97,20 @@ namespace net_il_mio_fotoalbum.Controllers
         
         }
 
+        [HttpGet]
+        public IActionResult SftDelete(int id)
+        {
+            if (PhotoManager.SoftDeleteFromId(id))
+            {
+                return RedirectToAction("Index");
 
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
 
 
 

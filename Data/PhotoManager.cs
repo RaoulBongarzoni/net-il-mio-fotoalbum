@@ -87,8 +87,40 @@ namespace net_il_mio_fotoalbum.Data
             }
             context.SaveChanges();
             return true;
+           }
+
+
+        public static bool HardDeleteFromId(int id)
+        {
+            using PhotoContext context = new PhotoContext();
+            var photoToDelete = context.Photos.FirstOrDefault( p => p.Id == id);
+
+            if (photoToDelete == null) {
+                return false;
             }
 
+            context.Photos.Remove(photoToDelete);
+            context.SaveChanges()
+;
+            return true;
+
+        }
+        public static bool SoftDeleteFromId(int id)
+        {
+            using PhotoContext context = new PhotoContext();
+            var photoToDelete=context.Photos.FirstOrDefault(p => p.Id == id);
+
+            if (photoToDelete == null)
+            {
+                return false;
+            }
+            context.Photos.FirstOrDefault(p => p.Id == id).Visible = false;
+
+            context.SaveChanges()
+;
+            return true;
+
+        }
 
 
     }
