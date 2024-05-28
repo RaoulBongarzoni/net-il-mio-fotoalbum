@@ -3,3 +3,38 @@
 *@
 @{
 }
+@model PhotoModel;
+
+
+    <div class="card">
+<div class="container ">
+
+
+        <div class="row card-header">
+            <div class="col d-flex justify-content-center">
+                <h1>
+                    @Model.Title
+                </h1>
+
+            </div>
+        
+        </div>
+        <div class="row card-body">
+            <div class="col">
+
+                <img src="@Model.ImgSrc" alt="@Model.Description" class="w-100 h-100"/>
+            </div>
+        </div>
+        <div class="row" >
+
+                <div class="col p-5 d-flex justify-content-center"> <a class="btn btn-primary w-100 p-3 rounded-pill" href="@Url.Action("Update", "Photo", new { id = @Model.Id } )"> EDIT</a></div>
+            
+
+        </div>
+
+
+    </div>
+
+
+
+</div>

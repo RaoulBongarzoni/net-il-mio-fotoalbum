@@ -14,7 +14,22 @@ namespace net_il_mio_fotoalbum.Models
         public IFormFile? ImageFormFile { get; set; }
 
 
+
         public PhotoFormModel() { }
+
+        public PhotoFormModel(PhotoModel photo)
+        {
+
+            this.Photo = photo;
+
+        }
+
+        public PhotoFormModel(PhotoModel photo, IFormFile image)
+        {
+
+            this.Photo = photo;
+            this.ImageFormFile = image;
+        }
 
 
 
@@ -42,16 +57,18 @@ namespace net_il_mio_fotoalbum.Models
         }
 
         //(da IFromFile a byte[])
-        public void SetImageFileFromFile()
+        public byte[] SetImageFileFromFile()
 
         {
             if(this.ImageFormFile == null)
             {
-                return;
+                return null;
             }
             using var stream = new MemoryStream();
             this.ImageFormFile?.CopyTo(stream);
             Photo.ImgFile = stream.ToArray();
+
+            return Photo.ImgFile;
 
 ;
         }

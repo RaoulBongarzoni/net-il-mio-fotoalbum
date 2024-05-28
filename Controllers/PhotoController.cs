@@ -10,8 +10,8 @@ namespace net_il_mio_fotoalbum.Controllers
     {
         public IActionResult Index()
         {
-            var ans = PhotoManager.GetAllPhotos();
-            return View(ans);
+            
+            return View("Index",PhotoManager.GetAllPhotos());
         }
 
 
@@ -42,6 +42,7 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             if (!ModelState.IsValid)
             {
+                
                 //se i dati che ci vengono passati non sono validi ritorno alla view create con i dati appena inseriti
                 model.GetCategories();
                 return View("Create", model);
@@ -50,7 +51,7 @@ namespace net_il_mio_fotoalbum.Controllers
             //se i dati sono validi e corretti inserisco la foto nel db
             PhotoManager.GeneratePhoto(model.Photo , model.SelectedCategories );
 
-            return View("Index");
+            return RedirectToAction("Index");
             
         }
 
@@ -65,7 +66,7 @@ namespace net_il_mio_fotoalbum.Controllers
             }
             else
             {
-                PhotoFormModel model = new PhotoFormModel();
+                PhotoFormModel model = new PhotoFormModel(photoToUpdate);
                 model.GetCategories();
                 return View(model);
             }
@@ -80,15 +81,15 @@ namespace net_il_mio_fotoalbum.Controllers
         [HttpPost]
         public IActionResult Update(int id, PhotoFormModel data) {
         
-            if(!ModelState.IsValid)
+            if(ModelState.IsValid)
             {
                 data.GetCategories();
                 return View("update", data);
 
 
             }
-
-            if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.Visible, data.SelectedCategories))
+            var imgFile = data.SetImageFileFromFile();
+            if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.Visible, data.SelectedCategories, imgFile))
                 return RedirectToAction("index");
             else
                 return NotFound();

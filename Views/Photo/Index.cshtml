@@ -5,17 +5,38 @@
 
 <div class=" container">
     <div class="row">
-        <div class="col">
-            <div class=" card ">
+        @foreach (var element in @Model)
+        {
+           // @if (element.Visible)
 
-            @foreach (var element in @Model)
-            { <div class=" card-header">
-                <h5> @element.Title
-                </h5>
-                </div>
                 
-            }
+                
+                <div class="col-4 justify-content-center">
+            
+                <div class=" card w-100 rounded-5">
+
+                    <div class=" card-header w-100">
+                    <h5> @element.Title
+                    </h5>
+                    </div>
+                    <img src="@element.ImgSrc" style="width: 100%;"/>
+                    <div class="d-flex justify-content-between p-4">
+                        <div class="col-auto"> <a class="btn btn-secondary" href="@Url.Action("Detail", "Photo", new { id = element.Id } )">MORE</a></div>
+                        <div class="col-auto"> <a class="btn btn-primary" href="@Url.Action("Update", "Photo", new { id = element.Id } )"> EDIT</a></div>
+                        @if (!element.Visible)
+                        {
+                            <div class="col-auto"> <a class="btn btn-danger" href="@Url.Action("Update", "Photo", new { id = element.Id } )"> Rendi Visibile</a></div>
+                        }
+                        else
+                        {
+                            <div class="col-auto"> <a class="btn btn-danger" href="@Url.Action("Update", "Photo", new { id = element.Id } )"> Rendi INvisibile</a></div>
+                        }
+                    </div>
+
+                
+                </div>
             </div>
-        </div>
+            }
+       
     </div>
 </div>

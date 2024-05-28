@@ -48,6 +48,7 @@ namespace net_il_mio_fotoalbum.Data
             }
 
             context.Photos.Add(data);
+            Console.WriteLine(context.Photos);
             context.SaveChanges();
 
 
@@ -55,7 +56,7 @@ namespace net_il_mio_fotoalbum.Data
 
        }
 
-        public static bool UpdatePhoto(int id, string title, string? desc, bool visibility, List<string>? categories)
+        public static bool UpdatePhoto(int id, string title, string? desc, bool visibility, List<string>? categories, byte[]? newByteImg)
         {
             using PhotoContext context = new PhotoContext();
             var selectedPhoto = context.Photos.Where(x => x.Id == id).Include(x => x.CategoriesList).FirstOrDefault();
@@ -69,7 +70,10 @@ namespace net_il_mio_fotoalbum.Data
             selectedPhoto.Title = title;
             selectedPhoto.Description = desc;
             selectedPhoto.Visible = visibility;
-
+            if(newByteImg != null)
+            {
+                selectedPhoto.ImgFile = newByteImg;
+            }
             selectedPhoto.CategoriesList.Clear();
             if(categories != null)
             {
