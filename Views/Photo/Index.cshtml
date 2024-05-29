@@ -5,6 +5,10 @@
 
 <div class=" container">
     <div class="row">
+        <div class="col-4">
+            <div class="col-auto"> <a class="btn btn-secondary" href="@Url.Action("Index", "Category" )">Lista Categorie</a></div>
+            <div class="col-auto"> <a class="btn btn-primary" href="@Url.Action("Create", "Category" )"> Aggiungi o rimuovi categorie</a></div>
+        </div>
         @foreach (var element in @Model)
         {
            // @if (element.Visible)

@@ -43,6 +43,9 @@ namespace net_il_mio_fotoalbum.Data
         public static List<PhotoModel> GetVisiblePhotosSearch(string input)
         {
             using PhotoContext context = new PhotoContext();
+            var ans = new List<PhotoModel>();
+            if ((context.Photos.Where(x => (x.Title.ToLower().Contains(input.ToLower())) && (x.Visible == true)).ToList()) == null)
+                return ans;
             return context.Photos.Where(x => (x.Title.ToLower().Contains(input.ToLower())) && (x.Visible == true)).ToList();
         }
 
@@ -145,7 +148,28 @@ namespace net_il_mio_fotoalbum.Data
         }
 
 
+        public static void InsertCategory(CategoryModel categoryModel)
+        {
+            using PhotoContext context = new PhotoContext();
+            context.Categories.Add(categoryModel);
+            context.SaveChanges();
+        }
 
+        public static bool DeleteCategoryFromId(int id)
+        {
+            using PhotoContext context = new PhotoContext();
+            var catToDelete = context.Categories.FirstOrDefault(p => p.Id == id);
+            if(catToDelete == null) {
+                return false;
 
+            }
+
+            context.Categories.Remove(catToDelete);
+
+            context.SaveChanges();
+
+            return true;            
+
+        }
     }
 }
