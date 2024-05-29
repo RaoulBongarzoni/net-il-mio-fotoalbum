@@ -141,7 +141,7 @@ namespace net_il_mio_fotoalbum.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return LocalRedirect(returnUrl ?? "/Photo/Index");
                     }
                 }
                 foreach (var error in result.Errors)

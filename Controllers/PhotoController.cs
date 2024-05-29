@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
 using System.Reflection;
@@ -6,6 +7,7 @@ using System.Reflection;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PhotoController : Controller
     {
         public IActionResult Index()
@@ -14,6 +16,11 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Index",PhotoManager.GetAllPhotos());
         }
 
+        public IActionResult PublicIndex()
+        {
+
+            return View("../Home/Index");
+        }
 
         public IActionResult Detail(int id)
         {

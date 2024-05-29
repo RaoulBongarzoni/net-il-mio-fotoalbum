@@ -13,7 +13,7 @@ namespace net_il_mio_fotoalbum.Data
        
         public DbSet<PhotoModel> Photos { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
-
+        public DbSet<MessageModel> Messages { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

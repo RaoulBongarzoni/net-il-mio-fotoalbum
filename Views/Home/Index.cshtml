@@ -2,9 +2,156 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<div>
+@{
 
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-center align-items-center">
 
+                <input class="js_search" placeholder="Cerca per titolo" ">
+            </div>
+        </div>
+    </div>
+    <div class="row js_no_photo d-none">
+        <div class="col">
+            <h3>Non hai inserito alcun foto che contiene questo nome</h3>
+        </div>
+    </div>
+    <div class="row js_photo_table d-none">
+        <!-- Qui inseriamo i post con le foto -->
+    </div>
+    <div class="row">
+        <form class="form" onsubmit="sendMessage(event)" method="post">
+        <h4>Mandaci Un messaggio!</h4>
 
+            <strong>Email:</strong>
+            <input id="message_sender" class="d-block w-100" />
+        </div>
+
+        <div class="mb-3">
+            <strong>Testo:</strong>
+            <textarea id="message_text" class="d-block w-100"></textarea>
+        </div>
+        <div class="text-end">
+            <input type="submit" class="btn btn-small btn-info" value="Send">
+        </div>
+        </form>
+        <!-- Qui inseriamo il model per l'invio del messaggio' -->
+    </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function loadList(nameFilter) {
+        if (nameFilter != null) {
+
+
+            axios.get(`/api/PhotoWeb/GetAllPosts/${nameFilter}`).then((res) => {
+                console.log(res)
+                if (res.data.lenght) // Non abbiamo nessuna foto
+                {
+                    document.querySelector('.js_no_photo').classList.remove('d-none');
+                    document.querySelector('.js_photo_table').classList.add('d-none');
+                }
+                else {
+                    document.querySelector('.js_no_photo').classList.add('d-none');
+                    var photoTable = document.querySelector('.js_photo_table');
+                    photoTable.classList.remove('d-none');
+
+                    photoTable.innerHTML = '';
+                    res.data.forEach((photo) => {
+                        console.log(photo);
+                        photoTable.innerHTML += `
+                    <div class="col-4 justify-content-center">
+
+                    <div class=" card w-100 rounded-5">
+
+                        <div class=" card-header w-100">
+                        <h5> ${photo.title}
+                        </h5>
+                        </div>
+                        <img src="${photo.imgSrc}" style="width: 100%;"/>
+
+
+                    </div>
+                </div>`
+
+                    });
+                }
+            });
+        } else {
+            axios.get(`/api/PhotoWeb/GetAllPosts`).then((res) => {
+                console.log(res)
+                if (res.data.length == 0) // Non abbiamo nessuna foto
+                {
+                    document.querySelector('.js_no_photo').classList.remove('d-none');
+                    document.querySelector('.js_photo_table').classList.add('d-none');
+                }
+                else {
+                    document.querySelector('.js_no_photo').classList.add('d-none');
+                    var photoTable = document.querySelector('.js_photo_table');
+                    photoTable.classList.remove('d-none');
+
+                    photoTable.innerHTML = '';
+                    res.data.forEach((photo) => {
+                        console.log(photo);
+                        photoTable.innerHTML += `
+                        <div class="col-4 justify-content-center">
+                             
+                        <div class=" card w-100 rounded-5">
+
+                            <div class=" card-header w-100">
+                            <h5> ${photo.title}
+                            </h5>
+                            </div>
+                            <img src="${photo.imgSrc}" style="width: 100%;"/>
+
+
+                        </div>
+                            
+                    </div>`
+                    });
+                }
+            });
+
+        }
+    }
+
+    loadList();
+
+    function search() {
+
+        console.log(this.value);
+        loadList(this.value);
+    }
+
+    //manda messaggio
+    function sendMessage(event) {
+        event.preventDefault();
+        var sender = document.getElementById("message_sender").value;
+        var message = document.getElementById("message_text").value;
+        
+
+        axios.post(`/api/PhotoWeb/InsertMessage`, {
+
+            SentBy: sender,
+            Text: message
+
+        }).then(function (res) {
+
+            console.log(res);
+            document.getElementById('message_sender').value = '';
+            document.getElementById('message_text').value = '';
+
+
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    document.querySelector('.js_search').addEventListener('keyup', search)
+</script>

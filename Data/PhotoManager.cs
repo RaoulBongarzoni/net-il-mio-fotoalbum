@@ -137,6 +137,13 @@ namespace net_il_mio_fotoalbum.Data
 
         }
 
+        public static void InsertMessage(MessageModel message)
+        {
+            using PhotoContext context = new PhotoContext();
+            context.Messages.Add(message);
+            context.SaveChanges();
+        }
+
 
 
 
