@@ -30,6 +30,21 @@ namespace net_il_mio_fotoalbum.Data
             return context.Photos.Where(p => p.Id == photoId).FirstOrDefault();
 
         }
+        //funzione che restituisce tutti i post visibili
+
+        public static List<PhotoModel> GetAllVisiblePhotos()
+        {
+                using PhotoContext context = new PhotoContext();
+                return context.Photos.Where(p => p.Visible == true).ToList();
+        }
+
+        //funzione per ricerca 
+
+        public static List<PhotoModel> GetVisiblePhotosSearch(string input)
+        {
+            using PhotoContext context = new PhotoContext();
+            return context.Photos.Where(x => (x.Title.ToLower().Contains(input.ToLower())) && (x.Visible == true)).ToList();
+        }
 
 
        public static void GeneratePhoto(PhotoModel data,  List<string> selecetdCategories = null )
@@ -121,6 +136,8 @@ namespace net_il_mio_fotoalbum.Data
             return true;
 
         }
+
+
 
 
     }
